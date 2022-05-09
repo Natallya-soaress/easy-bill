@@ -26,4 +26,27 @@ public class Product {
     @Column(length = 10)
     private String taxClass;
 
+    public void setTaxClass(String taxClass) {
+        this.taxClass = taxClass;
+    }
+
+    public void setPromotionalPrice(BigDecimal promotionalPrice) {
+        this.promotionalPrice = promotionalPrice;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 }
