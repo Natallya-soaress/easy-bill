@@ -8,41 +8,61 @@
             <div class="jumbotron mb-0">
                 <h1 class="display-4"> New Product </h1>
             </div>
-            <form action="new" method="post">
-                <div>
-                    <label for="productName"> Product: </label>
-                    <input name="productName" placeholder="Product name:"/>
-                    <small> Insert the product name here </small>
-                </div>
-                <div>
-                    <label for="imageUrl"> Image: </label>
-                    <input name="imageUrl" placeholder="Image URL:"/>
-                    <small> Insert the url image here </small>
-                </div>
-                <div>
-                    <label for="descriptionProduct"> Description: </label>
-                    <textarea name="descriptionProduct" placeholder="Description product:"> </textarea>
-                    <small> Insert the description product here </small>
-                </div>
-                <div>
-                    <label for="priceProduct"> Price: </label>
-                    <input name="priceProduct" placeholder="Price product:"/>
-                    <small> Insert the price product here </small>
-                </div>
-                <div>
-                    <label for="promotionalPriceProduct"> Promotional price: </label>
-                    <input name="promotionalPriceProduct" placeholder="Promotional price:"/>
-                    <small> Insert the price product here </small>
-                </div>
-                <div>
-                    <label for="taxClass"> Tax class: </label>
-                    <input name="taxClass" placeholder="Tax class product:"/>
-                    <small> Insert the tax class here </small>
-                </div>
-                <div>
-                    <button type="submit"> Send </button>
-                </div>
-            </form>
+            <div class="card mt-3">
+                <form th:object="${newProductRequisition}" class="card-body" action="new" method="post">
+                    <div class="form-group">
+                        <label for="productName"> Product: </label>
+                        <input th:field="*{productName}" th:errorclass="is-invalid" class="form-control" placeholder="Product name:"/>
+                        <small> Insert the product name here </small>
+                        <div class="invalid-feedback" th:errors="*{productName}">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="imageUrl"> Image: </label>
+                        <input th:field="*{imageUrl}" th:errorclass="is-invalid" class="form-control" placeholder="Image URL:"/>
+                        <small> Insert the url image here </small>
+                        <div class="invalid-feedback" th:errors="*{imageUrl}">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionProduct"> Description: </label>
+                        <textarea th:field="*{descriptionProduct}" th:errorclass="is-invalid" class="form-control" placeholder="Description product:"> </textarea>
+                        <small> Insert the description product here </small>
+                        <div class="invalid-feedback" th:errors="*{descriptionProduct}">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="priceProduct"> Price: </label>
+                        <input th:field="*{priceProduct}" th:errorclass="is-invalid" class="form-control" placeholder="Price product:"/>
+                        <small> Insert the price product here </small>
+                        <div class="invalid-feedback" th:errors="*{priceProduct}">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="promotionalPriceProduct"> Promotional price: </label>
+                        <input th:field="*{promotionalPriceProduct}" th:errorclass="is-invalid" class="form-control" placeholder="Promotional price:"/>
+                        <small> Insert the price product here </small>
+                        <div class="invalid-feedback" th:errors="*{promotionalPriceProduct}">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="taxClass"> Tax class: </label>
+                        <input th:field="*{taxClass}" th:errorclass="is-invalid" class="form-control" placeholder="Tax class product:"/>
+                        <small> Insert the tax class here </small>
+                        <div class="invalid-feedback" th:errors="*{taxClass}">
+
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" type="submit"> Send </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </body>
 </html>

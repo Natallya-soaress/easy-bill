@@ -1,16 +1,34 @@
 package br.com.oobj.easybill.dto;
 
 import br.com.oobj.easybill.model.Product;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 public class NewProductRequisition {
 
+    @NotBlank
+    @Max(150)
     private String productName;
+
+    @NotBlank
+    @Max(500)
     private String imageUrl;
+
+    @Max(1000)
     private String descriptionProduct;
+
+    @NotBlank
+    @DecimalMin("1")
     private String priceProduct;
+
+    @DecimalMin("1")
     private String promotionalPriceProduct;
+
+    @NotBlank
+    @Length(min=10, max=10)
+    @Pattern(regexp = "^[0-9]{4}[.][0-9]{2}[.][0-9]{2}+$")
     private String taxClass;
 
     public String getProductName() {
@@ -55,6 +73,10 @@ public class NewProductRequisition {
 
     public String getPromotionalPriceProduct() {
         return promotionalPriceProduct;
+    }
+
+    public String promotionalPrice(){
+        return  (String) getPromotionalPriceProduct();
     }
 
     public void setPromotionalPriceProduct(String promotionalPriceProduct) {
