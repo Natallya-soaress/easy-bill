@@ -9,22 +9,22 @@ import java.math.BigDecimal;
 public class NewProductRequisition {
 
     @NotBlank
-    @Max(150)
+    @Size(max=150)
     private String productName;
 
     @NotBlank
-    @Max(500)
+    @Size(max=500)
     private String imageUrl;
 
-    @Max(1000)
+    @Size(max=1000)
     private String descriptionProduct;
 
-    @NotBlank
-    @DecimalMin("1")
-    private String priceProduct;
+    @NotNull
+    @Min(1)
+    private BigDecimal priceProduct;
 
-    @DecimalMin("1")
-    private String promotionalPriceProduct;
+    @Min(1)
+    private BigDecimal promotionalPriceProduct;
 
     @NotBlank
     @Length(min=10, max=10)
@@ -63,23 +63,19 @@ public class NewProductRequisition {
         this.descriptionProduct = descriptionProduct;
     }
 
-    public String getPriceProduct() {
+    public BigDecimal getPriceProduct() {
         return priceProduct;
     }
 
-    public void setPriceProduct(String priceProduct) {
+    public void setPriceProduct(BigDecimal priceProduct) {
         this.priceProduct = priceProduct;
     }
 
-    public String getPromotionalPriceProduct() {
+    public BigDecimal getPromotionalPriceProduct() {
         return promotionalPriceProduct;
     }
 
-    public String promotionalPrice(){
-        return  (String) getPromotionalPriceProduct();
-    }
-
-    public void setPromotionalPriceProduct(String promotionalPriceProduct) {
+    public void setPromotionalPriceProduct(BigDecimal promotionalPriceProduct) {
         this.promotionalPriceProduct = promotionalPriceProduct;
     }
 
@@ -89,8 +85,8 @@ public class NewProductRequisition {
         product.setName(productName);
         product.setDescription(descriptionProduct);
         product.setImageURL(imageUrl);
-        product.setPrice(new BigDecimal(priceProduct));
-        product.setPromotionalPrice(new BigDecimal(promotionalPriceProduct));
+        product.setPrice(priceProduct);
+        product.setPromotionalPrice(promotionalPriceProduct);
         product.setTaxClass(taxClass);
 
         return product;
