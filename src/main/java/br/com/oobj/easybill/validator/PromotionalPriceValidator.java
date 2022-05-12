@@ -1,19 +1,12 @@
 package br.com.oobj.easybill.validator;
 
 import br.com.oobj.easybill.dto.NewProductRequisition;
+import org.springframework.stereotype.Component;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+@Component
+public class PromotionalPriceValidator {
 
-public class PromotionalPriceValidator implements ConstraintValidator<PromotionalPriceConstraint, NewProductRequisition> {
-
-    @Override
-    public void initialize(PromotionalPriceConstraint promotionalPriceConstraint){
-
-    }
-
-    @Override
-    public boolean isValid(NewProductRequisition requisition, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(NewProductRequisition requisition){
         Integer compare = requisition.getPriceProduct().compareTo(requisition.getPromotionalPriceProduct());
         if(compare.equals(1)){
             return true;
@@ -21,4 +14,5 @@ public class PromotionalPriceValidator implements ConstraintValidator<Promotiona
             return false;
         }
     }
+
 }

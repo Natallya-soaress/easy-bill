@@ -3,7 +3,7 @@ package br.com.oobj.easybill.controller;
 import br.com.oobj.easybill.dto.NewProductRequisition;
 import br.com.oobj.easybill.model.Product;
 import br.com.oobj.easybill.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.oobj.easybill.validator.PromotionalPriceValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +15,13 @@ import javax.validation.Valid;
 @RequestMapping("product")
 public class NewProductController {
 
-    @Autowired
     private ProductRepository productRepository;
+    private PromotionalPriceValidator promotionalPriceValidator;
+
+    public NewProductController(ProductRepository productRepository, PromotionalPriceValidator promotionalPriceValidator){
+        this.productRepository = productRepository;
+        this.promotionalPriceValidator = promotionalPriceValidator;
+    }
 
     @GetMapping("form")
     public String form(NewProductRequisition requisition){
@@ -25,7 +30,7 @@ public class NewProductController {
 
     @RequestMapping("new")
     public String newProduct(@Valid NewProductRequisition requisition, BindingResult result){
-        if(result.hasErrors()){
+        if(result.hasErrors() || !promotionalPriceValidator.isValid(requisition)){
             return "newProductForm";
         }
         Product product = requisition.toProduct();
