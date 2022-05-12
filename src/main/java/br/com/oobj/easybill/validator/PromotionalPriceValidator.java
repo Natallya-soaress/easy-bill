@@ -2,17 +2,25 @@ package br.com.oobj.easybill.validator;
 
 import br.com.oobj.easybill.dto.NewProductRequisition;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+
+import java.util.Objects;
+
+import static java.util.Objects.isNull;
 
 @Component
 public class PromotionalPriceValidator {
 
-    public boolean isValid(NewProductRequisition requisition){
+    public void valid(NewProductRequisition requisition, BindingResult result){
+        if(isNull(requisition.getPriceProduct())){
+            return;
+        }
         Integer compare = requisition.getPriceProduct().compareTo(requisition.getPromotionalPriceProduct());
         if(compare.equals(1)){
-            return true;
-        } else{
-            return false;
+            return;
         }
+        result.rejectValue("promotionalPriceProduct", "", "Promotional price must be less than the effective price!!");
     }
 
 }

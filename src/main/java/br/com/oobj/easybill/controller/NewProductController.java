@@ -31,7 +31,8 @@ public class NewProductController {
 
     @PostMapping("products")
     public String newProduct(@Valid NewProductRequisition requisition, BindingResult result){
-        if(result.hasErrors() || !promotionalPriceValidator.isValid(requisition)){
+        promotionalPriceValidator.valid(requisition, result);
+        if(result.hasErrors()){
             return "newProductForm";
         }
         Product product = requisition.toProduct();
