@@ -19,7 +19,11 @@ public class ProductResponse {
         this.name = product.getName();
         this.description = product.getDescription();
         this.taxClass = product.getTaxClass();
-        this.effectivePrice = product.getPrice();
+        if(product.getPromotionalPrice() != null){
+            this.effectivePrice = product.getPromotionalPrice();
+        } else{
+            this.effectivePrice = product.getPrice();
+        }
     }
 
     public Long getId() {
