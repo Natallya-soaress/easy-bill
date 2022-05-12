@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("product")
-public class ProductController {
+public class NewProductController {
 
     @Autowired
     private ProductRepository productRepository;
@@ -30,7 +30,7 @@ public class ProductController {
         }
         Product product = requisition.toProduct();
         productRepository.save(product);
-        return "newProductForm";
+        return "redirect:/product/form";
     }
 
 }

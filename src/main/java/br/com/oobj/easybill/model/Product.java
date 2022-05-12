@@ -49,4 +49,32 @@ public class Product {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getTaxClass() {
+        return taxClass;
+    }
+
+    public BigDecimal getPromotionalPrice() {
+        return promotionalPrice;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
 }
