@@ -31,6 +31,18 @@ public class NewProductRequisition {
     @Pattern(regexp = "^[0-9]{4}[.][0-9]{2}[.][0-9]{2}+$")
     private String taxClass;
 
+    public NewProductRequisition() {
+    }
+
+    public NewProductRequisition(Product product) {
+        this.productName = product.getName();
+        this.priceProduct = product.getPrice();
+        this.descriptionProduct = product.getDescription();
+        this.imageUrl = product.getImageURL();
+        this.promotionalPriceProduct = product.getPromotionalPrice();
+        this.taxClass = product.getTaxClass();
+    }
+
     public String getProductName() {
         return productName;
     }
@@ -91,4 +103,5 @@ public class NewProductRequisition {
 
         return product;
     }
+
 }

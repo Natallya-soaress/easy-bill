@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+        <div class="jumbotron mb-0">
+            <h1 class="display-4">Products</h1>
+        </div>
+            <div class="card" th:each="productResponse : ${productsResponse}">
+                <div class="card-header" th:text="${productResponse.name}"> Name</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-8 mb-3">
+                            <div>Id</div>
+                            <div th:text="${productResponse.id}"> id</div>
+
+                            <div>Product</div>
+                            <div><input class="form-control" th:text="${productResponse.name}"/></div>
+
+                            <div>Description</div>
+                            <div>
+                                <textarea class="form-control" th:text="${productResponse.description}">description</textarea>
+                            </div>
+
+                            <div>Effective price</div>
+                            <div><input class="form-control" th:text="${productResponse.effectivePrice}"/></div>
+
+                            <div>Tax Class</div>
+                            <div><input class="form-control" th:text="${productResponse.taxClass}"/></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+    </body>
+</html>
