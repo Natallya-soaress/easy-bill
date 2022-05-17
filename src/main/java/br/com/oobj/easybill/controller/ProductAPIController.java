@@ -5,34 +5,33 @@ import br.com.oobj.easybill.dto.ProductResponse;
 import br.com.oobj.easybill.model.Product;
 import br.com.oobj.easybill.repository.ProductRepository;
 import br.com.oobj.easybill.validator.PromotionalPriceValidator;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("api")
 @RestController
-public class ShowProductController {
+public class ProductAPIController {
 
     private ProductRepository productRepository;
     private PromotionalPriceValidator promotionalPriceValidator;
 
-    public ShowProductController(ProductRepository productRepository, PromotionalPriceValidator promotionalPriceValidator){
+    public ProductAPIController(ProductRepository productRepository, PromotionalPriceValidator promotionalPriceValidator){
         this.productRepository = productRepository;
         this.promotionalPriceValidator = promotionalPriceValidator;
     }
 
     @GetMapping("/products")
-    public List<ProductResponse> showProducts(){
+    public  List<ProductResponse> showProducts(){
         List<Product> products = productRepository.findAll();
-        List<ProductResponse> productsResponse = ProductResponse.toListProductResponse(products);
-        return productsResponse;
+        return ProductResponse.toListProductResponse(products);
     }
 
     @PostMapping("/admin/products")
@@ -50,4 +49,36 @@ public class ShowProductController {
         }
     }
 
+    @GetMapping("/products/{id}")
+    public ResponseEntity<ProductResponse> detail(@PathVariable Long id){
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            return ResponseEntity.ok(new ProductResponse(product.get()));
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/admin/products/{id}")
+    @Transactional
+    public ResponseEntity<NewProductRequisition> update(@PathVariable Long id, @Valid @RequestBody NewProductRequisition requisition){
+        Optional<Product> optional = productRepository.findById(id);
+        if (optional.isPresent()) {
+            Product product = requisition.update(id, productRepository);
+            return ResponseEntity.ok(new NewProductRequisition(product));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/admin/products/{id}")
+    @Transactional
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        Optional<Product> optional = productRepository.findById(id);
+        if (optional.isPresent()) {
+            productRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.notFound().build();
+    }
 }

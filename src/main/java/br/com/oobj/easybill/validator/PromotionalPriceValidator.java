@@ -16,6 +16,9 @@ public class PromotionalPriceValidator {
         if(isNull(requisition.getPriceProduct())){
             return;
         }
+        if(isNull(requisition.getPromotionalPriceProduct())){
+            return;
+        }
         Integer compare = requisition.getPriceProduct().compareTo(requisition.getPromotionalPriceProduct());
         if(compare.equals(1)){
             return;

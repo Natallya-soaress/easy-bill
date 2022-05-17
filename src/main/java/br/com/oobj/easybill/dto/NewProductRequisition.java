@@ -1,6 +1,7 @@
 package br.com.oobj.easybill.dto;
 
 import br.com.oobj.easybill.model.Product;
+import br.com.oobj.easybill.repository.ProductRepository;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.*;
@@ -104,4 +105,16 @@ public class NewProductRequisition {
         return product;
     }
 
+    public Product update(Long id, ProductRepository productRepository){
+        Product product = productRepository.getById(id);
+
+        product.setName(this.productName);
+        product.setDescription(descriptionProduct);
+        product.setImageURL(imageUrl);
+        product.setPrice(priceProduct);
+        product.setPromotionalPrice(promotionalPriceProduct);
+        product.setTaxClass(taxClass);
+
+        return product;
+    }
 }

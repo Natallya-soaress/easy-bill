@@ -6,30 +6,30 @@
     </head>
     <body>
         <div class="container">
-        <div class="jumbotron mb-0">
+        <div class="jumbotron mb-3">
             <h1 class="display-4">Products</h1>
         </div>
-            <div class="card" th:each="productResponse : ${productsResponse}">
-                <div class="card-header" th:text="${productResponse.name}"> Name</div>
+            <div class="card mb-2" th:each="product : ${product}">
+                <div class="card-header" th:text="${product.name}"> Name</div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12 col-sm-8 mb-3">
-                            <div>Id</div>
-                            <div th:text="${productResponse.id}"> id</div>
+                            <div>Id:</div>
+                            <div class="form-control" th:text="${product.id}"> id</div>
 
-                            <div>Product</div>
-                            <div><input class="form-control" th:text="${productResponse.name}"/></div>
+                            <div>Product:</div>
+                            <div class="form-control" th:text="${product.name}"> </div>
 
-                            <div>Description</div>
+                            <div>Description:</div>
                             <div>
-                                <textarea class="form-control" th:text="${productResponse.description}">description</textarea>
+                                <textarea class="form-control" th:text="${product.description}">description</textarea>
                             </div>
 
-                            <div>Effective price</div>
-                            <div><input class="form-control" th:text="${productResponse.effectivePrice}"/></div>
+                            <div>Effective price:</div>
+                            <div class="form-control" th:text="${product.effectivePrice}"> </div>
 
-                            <div>Tax Class</div>
-                            <div><input class="form-control" th:text="${productResponse.taxClass}"/></div>
+                            <div>Tax Class:</div>
+                            <div class="form-control" th:text="${product.taxClass}"> </div>
 
                         </div>
                     </div>
