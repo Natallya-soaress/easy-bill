@@ -1,18 +1,15 @@
 package br.com.oobj.easybill.validator;
 
-import br.com.oobj.easybill.dto.NewProductRequisition;
+import br.com.oobj.easybill.dto.ProductRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-
-import java.util.Objects;
 
 import static java.util.Objects.isNull;
 
 @Component
 public class PromotionalPriceValidator {
 
-    public void valid(NewProductRequisition requisition, BindingResult result){
+    public void valid(ProductRequest requisition, BindingResult result){
         if(isNull(requisition.getPriceProduct())){
             return;
         }

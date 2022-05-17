@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
-public class NewProductRequisition {
+public class ProductRequest {
 
     @NotBlank
     @Size(max=150)
@@ -32,10 +32,10 @@ public class NewProductRequisition {
     @Pattern(regexp = "^[0-9]{4}[.][0-9]{2}[.][0-9]{2}+$")
     private String taxClass;
 
-    public NewProductRequisition() {
+    public ProductRequest() {
     }
 
-    public NewProductRequisition(Product product) {
+    public ProductRequest(Product product) {
         this.productName = product.getName();
         this.priceProduct = product.getPrice();
         this.descriptionProduct = product.getDescription();

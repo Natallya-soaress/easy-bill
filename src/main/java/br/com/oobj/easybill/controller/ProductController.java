@@ -1,6 +1,6 @@
 package br.com.oobj.easybill.controller;
 
-import br.com.oobj.easybill.dto.NewProductRequisition;
+import br.com.oobj.easybill.dto.ProductRequest;
 import br.com.oobj.easybill.model.Product;
 import br.com.oobj.easybill.repository.ProductRepository;
 import br.com.oobj.easybill.validator.PromotionalPriceValidator;
@@ -15,20 +15,20 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("admin")
-public class NewProductController {
+public class ProductController {
 
     private ProductRepository productRepository;
     private PromotionalPriceValidator promotionalPriceValidator;
     private ProductAPIController productAPIController;
 
-    public NewProductController(ProductRepository productRepository, PromotionalPriceValidator promotionalPriceValidator, ProductAPIController productAPIController){
+    public ProductController(ProductRepository productRepository, PromotionalPriceValidator promotionalPriceValidator, ProductAPIController productAPIController){
         this.productRepository = productRepository;
         this.promotionalPriceValidator = promotionalPriceValidator;
         this.productAPIController = productAPIController;
     }
 
     @GetMapping("product/form")
-    public String form(NewProductRequisition requisition){
+    public String form(ProductRequest requisition){
         return "newProductForm";
     }
 
@@ -40,7 +40,7 @@ public class NewProductController {
     }
 
     @PostMapping("/product/products")
-    public String newProduct(@Valid NewProductRequisition requisition, BindingResult result){
+    public String newProduct(@Valid ProductRequest requisition, BindingResult result){
         promotionalPriceValidator.valid(requisition, result);
         if(result.hasErrors()){
             return "newProductForm";

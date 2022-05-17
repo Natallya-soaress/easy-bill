@@ -1,6 +1,6 @@
 package br.com.oobj.easybill.controller;
 
-import br.com.oobj.easybill.dto.NewProductRequisition;
+import br.com.oobj.easybill.dto.ProductRequest;
 import br.com.oobj.easybill.dto.ProductResponse;
 import br.com.oobj.easybill.model.Product;
 import br.com.oobj.easybill.repository.ProductRepository;
@@ -23,62 +23,59 @@ public class ProductAPIController {
     private ProductRepository productRepository;
     private PromotionalPriceValidator promotionalPriceValidator;
 
-    public ProductAPIController(ProductRepository productRepository, PromotionalPriceValidator promotionalPriceValidator){
+    public ProductAPIController(ProductRepository productRepository, PromotionalPriceValidator promotionalPriceValidator) {
         this.productRepository = productRepository;
         this.promotionalPriceValidator = promotionalPriceValidator;
     }
 
     @GetMapping("/products")
-    public  List<ProductResponse> showProducts(){
+    public List<ProductResponse> showProducts() {
         List<Product> products = productRepository.findAll();
         return ProductResponse.toListProductResponse(products);
     }
 
     @PostMapping("/admin/products")
-    public ResponseEntity<NewProductRequisition> newProduct(@RequestBody @Valid NewProductRequisition requisition, UriComponentsBuilder uriBuilder, BindingResult result) {
+    public ResponseEntity<ProductRequest> newProduct(@RequestBody @Valid ProductRequest requisition, UriComponentsBuilder uriBuilder, BindingResult result) {
         promotionalPriceValidator.valid(requisition, result);
         if (result.hasErrors()) {
-            return ResponseEntity.badRequest().body(new NewProductRequisition());
-        } else {
-            Product product = requisition.toProduct();
-            productRepository.save(product);
-
-            URI uri = uriBuilder.path("products/{id}").buildAndExpand(product.getId()).toUri();
-
-            return ResponseEntity.created(uri).body(new NewProductRequisition(product));
+            return ResponseEntity.badRequest().body(new ProductRequest());
         }
+        Product product = requisition.toProduct();
+        productRepository.save(product);
+
+        URI uri = uriBuilder.path("products/{id}").buildAndExpand(product.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(new ProductRequest(product));
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<ProductResponse> detail(@PathVariable Long id){
+    public ResponseEntity<ProductResponse> detail(@PathVariable Long id) {
         Optional<Product> product = productRepository.findById(id);
-        if (product.isPresent()) {
-            return ResponseEntity.ok(new ProductResponse(product.get()));
+        if (!product.isPresent()) {
+            return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(new ProductResponse(product.get()));
     }
 
     @PutMapping("/admin/products/{id}")
     @Transactional
-    public ResponseEntity<NewProductRequisition> update(@PathVariable Long id, @Valid @RequestBody NewProductRequisition requisition){
+    public ResponseEntity<Void> update(@PathVariable Long id, @Valid @RequestBody ProductRequest requisition) {
         Optional<Product> optional = productRepository.findById(id);
-        if (optional.isPresent()) {
-            Product product = requisition.update(id, productRepository);
-            return ResponseEntity.ok(new NewProductRequisition(product));
+        if (!optional.isPresent()) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        requisition.update(id, productRepository);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/admin/products/{id}")
     @Transactional
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Optional<Product> optional = productRepository.findById(id);
-        if (optional.isPresent()) {
-            productRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+        if (!optional.isPresent()) {
+            return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.notFound().build();
+        productRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }
