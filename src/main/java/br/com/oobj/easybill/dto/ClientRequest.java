@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 
 public class ClientRequest {
 
+
     @NotBlank
     private String name;
 

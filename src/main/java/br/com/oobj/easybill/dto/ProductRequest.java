@@ -106,9 +106,10 @@ public class ProductRequest {
     }
 
     public Product update(Long id, ProductRepository productRepository){
+
         Product product = productRepository.getById(id);
 
-        product.setName(this.productName);
+        product.setName(productName);
         product.setDescription(descriptionProduct);
         product.setImageURL(imageUrl);
         product.setPrice(priceProduct);

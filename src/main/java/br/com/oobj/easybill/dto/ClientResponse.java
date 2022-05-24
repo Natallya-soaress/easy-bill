@@ -1,10 +1,13 @@
 package br.com.oobj.easybill.dto;
 
 import br.com.oobj.easybill.model.Client;
+import br.com.oobj.easybill.model.Product;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClientResponse {
 
-    private Long id;
     private String name;
     private String cpf;
     private String phoneNumber;
@@ -27,14 +30,6 @@ public class ClientResponse {
         this.district = client.getDistrict();
         this.state = client.getState();
         this.street = client.getStreet();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -115,5 +110,9 @@ public class ClientResponse {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public static List<ClientResponse> toListClientResponse(List<Client> clients) {
+        return clients.stream().map(ClientResponse::new).collect(Collectors.toList());
     }
 }
