@@ -1,29 +1,44 @@
-package br.com.oobj.easybill.model;
+package br.com.oobj.easybill.dto;
 
-import javax.persistence.*;
+import br.com.oobj.easybill.model.Product;
+import br.com.oobj.easybill.model.Sale;
+import br.com.oobj.easybill.model.SaleItem;
+
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "sales_items")
-public class SalesItems {
+public class SaleItemRequest {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
-
+    @NotNull
+    @Positive
     private int quantity;
+
+    @Size(max = 500)
     private String note;
+
+    @NotNull
+    @Min(1)
     private BigDecimal price;
+
+    @Min(1)
     private BigDecimal promotionalPrice;
 
-    @ManyToOne
+    @NotBlank
     private Sale sale;
 
-    @ManyToOne
+    @NotBlank
     private Product product;
 
-    public Long getId() {
-        return id;
+    public SaleItemRequest() {
+    }
+
+    public SaleItemRequest(SaleItem saleItem) {
+        this.note = saleItem.getNote();
+        this.price = saleItem.getPrice();
+        this.promotionalPrice = saleItem.getPromotionalPrice();
+        this.sale = saleItem.getSale();
+        this.product = saleItem.getProduct();
+        this.quantity = saleItem.getQuantity();
     }
 
     public int getQuantity() {
@@ -72,5 +87,18 @@ public class SalesItems {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public SaleItem toSaleItem(){
+        SaleItem saleItem = new SaleItem();
+
+        saleItem.setSale(sale);
+        saleItem.setNote(note);
+        saleItem.setPrice(price);
+        saleItem.setProduct(product);
+        saleItem.setQuantity(quantity);
+        saleItem.setPromotionalPrice(promotionalPrice);
+
+        return saleItem;
     }
 }

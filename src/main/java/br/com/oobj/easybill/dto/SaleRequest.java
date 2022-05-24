@@ -17,8 +17,7 @@ public class SaleRequest {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne
-    @Column(name = "client_id")
+    @NotBlank
     private Client client;
 
     public SaleRequest() {
