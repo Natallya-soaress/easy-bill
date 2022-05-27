@@ -6,7 +6,6 @@ import br.com.oobj.easybill.model.SaleItem;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SaleResponse {
 
@@ -14,7 +13,7 @@ public class SaleResponse {
     private LocalDateTime date;
     private Status status;
     private Long clientId;
-    List<SaleItemResponse> items;
+    private List<SaleItemResponse> items;
 
     public SaleResponse() {
     }
@@ -47,4 +46,23 @@ public class SaleResponse {
         this.status = status;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
+
+    public List<SaleItemResponse> getItems() {
+        return items;
+    }
+
+    public void setItems(List<SaleItemResponse> items) {
+        this.items = items;
+    }
 }

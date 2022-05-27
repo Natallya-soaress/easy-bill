@@ -83,8 +83,7 @@ public class SaleItemResponse {
     public static List<SaleItemResponse> toListSaleItemResponse(List<SaleItem> salesItems) {
         List<SaleItemResponse> itemsResponse = new ArrayList<>();
         salesItems.forEach(item -> {
-            SaleItemResponse saleItemResponse = new SaleItemResponse();
-            saleItemResponse.toSaleItemResponse(item);
+            SaleItemResponse saleItemResponse = new SaleItemResponse(item);
             itemsResponse.add(saleItemResponse);
         });
         return itemsResponse;

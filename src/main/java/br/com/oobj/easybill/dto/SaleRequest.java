@@ -11,7 +11,6 @@ import java.util.List;
 
 public class SaleRequest {
 
-
     @NotNull
     private Long clientId;
 
@@ -19,6 +18,11 @@ public class SaleRequest {
     private List<SaleItemRequest> items;
 
     public SaleRequest() {
+    }
+
+    public SaleRequest(Sale sale, List<SaleItemRequest> items) {
+        this.clientId = sale.getClient().getId();
+        this.items = items;
     }
 
     public Long getClientId() {

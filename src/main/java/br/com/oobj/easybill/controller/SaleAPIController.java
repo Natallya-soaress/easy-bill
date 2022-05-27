@@ -58,21 +58,20 @@ public class SaleAPIController {
         saleItemRepository.saveAll(items);
 
         URI uri = uriBuilder.path("api/sales/{id}").buildAndExpand(sale.getId()).toUri();
-        return ResponseEntity.created(uri).body(new SaleRequest());
+        return ResponseEntity.created(uri).body(new SaleRequest(sale, request.getItems()));
     }
 
    @GetMapping("/{id}")
    public ResponseEntity<SaleResponse> detail(@PathVariable Long id) {
        Optional<Sale> optionalSale = saleRepository.findById(id);
+
        if (!optionalSale.isPresent()) {
            return ResponseEntity.notFound().build();
        }
        Sale sale = saleRepository.getById(id);
        List<SaleItem> saleItems = saleItemRepository.findBySaleItemSale(id);
 
-       SaleResponse saleResponse = new SaleResponse(sale, saleItems);
-
-       return ResponseEntity.ok(saleResponse);
+       return ResponseEntity.ok(new SaleResponse(sale, saleItems));
    }
 
 }
