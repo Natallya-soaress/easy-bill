@@ -3,9 +3,9 @@ package br.com.oobj.easybill.dto;
 import br.com.oobj.easybill.model.Product;
 import br.com.oobj.easybill.model.Sale;
 import br.com.oobj.easybill.model.SaleItem;
+import br.com.oobj.easybill.repository.ProductRepository;
 
 import javax.validation.constraints.*;
-import java.math.BigDecimal;
 
 public class SaleItemRequest {
 
@@ -17,28 +17,15 @@ public class SaleItemRequest {
     private String note;
 
     @NotNull
-    @Min(1)
-    private BigDecimal price;
-
-    @Min(1)
-    private BigDecimal promotionalPrice;
-
-    @NotBlank
-    private Sale sale;
-
-    @NotBlank
-    private Product product;
+    private Long productId;
 
     public SaleItemRequest() {
     }
 
     public SaleItemRequest(SaleItem saleItem) {
-        this.note = saleItem.getNote();
-        this.price = saleItem.getPrice();
-        this.promotionalPrice = saleItem.getPromotionalPrice();
-        this.sale = saleItem.getSale();
-        this.product = saleItem.getProduct();
         this.quantity = saleItem.getQuantity();
+        this.note = saleItem.getNote();
+        this.productId = saleItem.getId();
     }
 
     public int getQuantity() {
@@ -57,48 +44,43 @@ public class SaleItemRequest {
         this.note = note;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
-    public BigDecimal getPromotionalPrice() {
-        return promotionalPrice;
-    }
+    public SaleItem toSaleItem(Product product){
 
-    public void setPromotionalPrice(BigDecimal promotionalPrice) {
-        this.promotionalPrice = promotionalPrice;
-    }
-
-    public Sale getSale() {
-        return sale;
-    }
-
-    public void setSale(Sale sale) {
-        this.sale = sale;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public SaleItem toSaleItem(){
         SaleItem saleItem = new SaleItem();
 
-        saleItem.setSale(sale);
         saleItem.setNote(note);
-        saleItem.setPrice(price);
+        saleItem.setPrice(product.getPrice());
         saleItem.setProduct(product);
         saleItem.setQuantity(quantity);
-        saleItem.setPromotionalPrice(promotionalPrice);
 
         return saleItem;
     }
+
+    public SaleItem toSaleItem(ProductRepository productRepository, Sale sale){
+
+        SaleItem saleItem = new SaleItem();
+
+        saleItem.setNote(note);
+        saleItem.setQuantity(quantity);
+        saleItem.setSale(sale);
+
+        saleItem.setProduct(productRepository.findById(productId).get());
+
+        if(productRepository.findById(productId).get().getPromotionalPrice() == null){
+            saleItem.setPrice(productRepository.findById(productId).get().getPrice());
+        } else {
+            saleItem.setPrice(productRepository.findById(productId).get().getPromotionalPrice());
+        }
+
+        return saleItem;
+    }
+
 }

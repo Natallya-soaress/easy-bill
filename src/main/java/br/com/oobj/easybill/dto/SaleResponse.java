@@ -1,40 +1,41 @@
 package br.com.oobj.easybill.dto;
 
 import br.com.oobj.easybill.enums.Status;
-import br.com.oobj.easybill.model.Client;
 import br.com.oobj.easybill.model.Sale;
+import br.com.oobj.easybill.model.SaleItem;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class SaleResponse {
 
     private Long id;
-    private Calendar date;
+    private LocalDateTime date;
     private Status status;
-    private Client client;
+    private Long clientId;
+    List<SaleItemResponse> items;
 
     public SaleResponse() {
     }
 
-    public SaleResponse(Sale sale) {
+    public SaleResponse(Sale sale, List<SaleItem> items) {
         this.id = sale.getId();
-        this.client = sale.getClient();
+        this.clientId = sale.getClient().getId();
         this.date = sale.getDate();
         this.status = sale.getStatus();
-
+        this.items = SaleItemResponse.toListSaleItemResponse(items);
     }
 
     public Long getId() {
         return id;
     }
 
-    public Calendar getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Calendar date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -46,15 +47,4 @@ public class SaleResponse {
         this.status = status;
     }
 
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public static List<SaleResponse> toListSaleResponse(List<Sale> sales) {
-        return sales.stream().map(SaleResponse::new).collect(Collectors.toList());
-    }
 }

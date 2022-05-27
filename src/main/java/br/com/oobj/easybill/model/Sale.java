@@ -3,7 +3,7 @@ package br.com.oobj.easybill.model;
 import br.com.oobj.easybill.enums.Status;
 
 import javax.persistence.*;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "sales")
@@ -13,11 +13,12 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Calendar date;
+    private LocalDateTime date;
+
+    @Enumerated(value = EnumType.STRING)
     private Status status;
 
     @ManyToOne
-    @Column(name = "client_id")
     private Client client;
 
 
@@ -25,11 +26,11 @@ public class Sale {
         return id;
     }
 
-    public Calendar getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Calendar date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

@@ -30,12 +30,12 @@ public class ClientAPIController {
     @PostMapping("api/clients")
     public ResponseEntity<ClientRequest> newProduct(@RequestBody @Valid ClientRequest requisition, UriComponentsBuilder uriBuilder, BindingResult result) {
         if (result.hasErrors()) {
-            return ResponseEntity.badRequest().body(new ClientRequest());
+            return ResponseEntity.badRequest().build();
         }
         Client client = requisition.toClient();
         clientRepository.save(client);
 
-        URI uri = uriBuilder.path("products/{id}").buildAndExpand(client.getId()).toUri();
+        URI uri = uriBuilder.path("api/clients/{id}").buildAndExpand(client.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new ClientRequest(client));
     }

@@ -1,6 +1,7 @@
 package br.com.oobj.easybill.validator;
 
 import br.com.oobj.easybill.dto.ProductRequest;
+import br.com.oobj.easybill.dto.SaleItemRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 

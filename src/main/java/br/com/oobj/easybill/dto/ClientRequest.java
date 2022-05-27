@@ -1,6 +1,7 @@
 package br.com.oobj.easybill.dto;
 
 import br.com.oobj.easybill.model.Client;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;

@@ -38,7 +38,7 @@ public class ProductAPIController {
     public ResponseEntity<ProductRequest> newProduct(@RequestBody @Valid ProductRequest requisition, UriComponentsBuilder uriBuilder, BindingResult result) {
         promotionalPriceValidator.valid(requisition, result);
         if (result.hasErrors()) {
-            return ResponseEntity.badRequest().body(new ProductRequest());
+            return ResponseEntity.badRequest().build();
         }
         Product product = requisition.toProduct();
         productRepository.save(product);

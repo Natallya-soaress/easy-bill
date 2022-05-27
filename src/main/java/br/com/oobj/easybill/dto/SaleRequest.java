@@ -1,66 +1,51 @@
 package br.com.oobj.easybill.dto;
 
 import br.com.oobj.easybill.enums.Status;
-import br.com.oobj.easybill.model.Client;
 import br.com.oobj.easybill.model.Sale;
+import br.com.oobj.easybill.repository.ClientRepository;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.Calendar;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class SaleRequest {
 
-    @NotBlank
-    private Calendar date;
 
-    @NotBlank
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    @NotNull
+    private Long clientId;
 
-    @NotBlank
-    private Client client;
+    @NotEmpty
+    private List<SaleItemRequest> items;
 
     public SaleRequest() {
     }
 
-    public SaleRequest(Sale sale) {
-        this.client = sale.getClient();
-        this.date = sale.getDate();
-        this.status = sale.getStatus();
+    public Long getClientId() {
+        return clientId;
     }
 
-    public Calendar getDate() {
-        return date;
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
     }
 
-    public void setDate(Calendar date) {
-        this.date = date;
+    public List<SaleItemRequest> getItems() {
+        return items;
     }
 
-    public Status getStatus() {
-        return status;
+    public void setItems(List<SaleItemRequest> items) {
+        this.items = items;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
 
-    public Client getClient() {
-        return client;
-    }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public Sale toSale(){
-
+    public Sale toSale(ClientRepository clientRepository){
         Sale sale = new Sale();
 
-        sale.setDate(date);
-        sale.setStatus(status);
-        sale.setClient(client);
+        sale.setClient(clientRepository.getById(clientId));
+        sale.setStatus(Status.MADE);
+        sale.setDate(LocalDateTime.now());
 
-        return sale;
+        return  sale;
     }
 }

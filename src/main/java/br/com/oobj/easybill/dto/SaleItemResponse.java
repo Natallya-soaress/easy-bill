@@ -1,29 +1,30 @@
 package br.com.oobj.easybill.dto;
 
 import br.com.oobj.easybill.model.Product;
-import br.com.oobj.easybill.model.Sale;
 import br.com.oobj.easybill.model.SaleItem;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class SaleItemResponse {
 
+    private Long id;
     private int quantity;
     private String note;
     private BigDecimal price;
-    private BigDecimal promotionalPrice;
-    private Sale sale;
-    private Product product;
+    private Long productId;
+
+    public SaleItemResponse() {
+    }
 
     public SaleItemResponse(SaleItem saleItem) {
+        this.id = saleItem.getId();
         this.note = saleItem.getNote();
         this.price = saleItem.getPrice();
-        this.promotionalPrice = saleItem.getPromotionalPrice();
-        this.sale = saleItem.getSale();
-        this.product = saleItem.getProduct();
         this.quantity = saleItem.getQuantity();
+        this.productId = saleItem.getProduct().getId();
     }
 
     public int getQuantity() {
@@ -50,31 +51,42 @@ public class SaleItemResponse {
         this.price = price;
     }
 
-    public BigDecimal getPromotionalPrice() {
-        return promotionalPrice;
+    public Long getId() {
+        return id;
     }
 
-    public void setPromotionalPrice(BigDecimal promotionalPrice) {
-        this.promotionalPrice = promotionalPrice;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Sale getSale() {
-        return sale;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setSale(Sale sale) {
-        this.sale = sale;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
-    public Product getProduct() {
-        return product;
-    }
+    public SaleItemResponse toSaleItemResponse(SaleItem saleItem){
 
-    public void setProduct(Product product) {
-        this.product = product;
+        SaleItemResponse saleItemResponse = new SaleItemResponse();
+
+        saleItemResponse.setId(id);
+        saleItemResponse.setNote(note);
+        saleItemResponse.setPrice(saleItem.getPrice());
+        saleItemResponse.setQuantity(quantity);
+        saleItemResponse.setProductId(productId);
+
+        return saleItemResponse;
     }
 
     public static List<SaleItemResponse> toListSaleItemResponse(List<SaleItem> salesItems) {
-        return salesItems.stream().map(SaleItemResponse::new).collect(Collectors.toList());
+        List<SaleItemResponse> itemsResponse = new ArrayList<>();
+        salesItems.forEach(item -> {
+            SaleItemResponse saleItemResponse = new SaleItemResponse();
+            saleItemResponse.toSaleItemResponse(item);
+            itemsResponse.add(saleItemResponse);
+        });
+        return itemsResponse;
     }
 }
