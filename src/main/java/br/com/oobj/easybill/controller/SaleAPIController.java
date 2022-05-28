@@ -5,6 +5,7 @@ import br.com.oobj.easybill.model.Client;
 import br.com.oobj.easybill.model.Product;
 import br.com.oobj.easybill.model.Sale;
 import br.com.oobj.easybill.model.SaleItem;
+import br.com.oobj.easybill.projection.SalesByProductProjection;
 import br.com.oobj.easybill.repository.ClientRepository;
 import br.com.oobj.easybill.repository.ProductRepository;
 import br.com.oobj.easybill.repository.SaleItemRepository;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("api/sales")
+@RequestMapping("api")
 public class SaleAPIController {
 
     private SaleItemRepository saleItemRepository;
@@ -39,7 +40,7 @@ public class SaleAPIController {
         this.saleRepository = saleRepository;
     }
 
-    @PostMapping()
+    @PostMapping("/sales")
     @Transactional
     public ResponseEntity<SaleRequest> newSale(@RequestBody @Valid SaleRequest request, UriComponentsBuilder uriBuilder, BindingResult result) {
 
@@ -61,7 +62,7 @@ public class SaleAPIController {
         return ResponseEntity.created(uri).body(new SaleRequest(sale, request.getItems()));
     }
 
-   @GetMapping("/{id}")
+   @GetMapping("/sales/{id}")
    public ResponseEntity<SaleResponse> detail(@PathVariable Long id) {
        Optional<Sale> optionalSale = saleRepository.findById(id);
 
@@ -73,5 +74,11 @@ public class SaleAPIController {
 
        return ResponseEntity.ok(new SaleResponse(sale, saleItems));
    }
+
+    @GetMapping("/admin/reports/salesbyproduct")
+    public ResponseEntity<List<SalesByProductProjection>> reportSaleByProduct() {
+
+       return ResponseEntity.ok(saleItemRepository.findBySalesByProduct());
+    }
 
 }

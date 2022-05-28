@@ -44,6 +44,7 @@ public class SaleRequest {
 
 
     public Sale toSale(ClientRepository clientRepository){
+
         Sale sale = new Sale();
 
         sale.setClient(clientRepository.getById(clientId));

@@ -28,7 +28,7 @@ public class ClientAPIController {
     }
 
     @PostMapping("api/clients")
-    public ResponseEntity<ClientRequest> newProduct(@RequestBody @Valid ClientRequest requisition, UriComponentsBuilder uriBuilder, BindingResult result) {
+    public ResponseEntity<ClientRequest> newClient(@RequestBody @Valid ClientRequest requisition, UriComponentsBuilder uriBuilder, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
@@ -55,7 +55,7 @@ public class ClientAPIController {
             List<Client> clients = clientRepository.findAll();
             return ClientResponse.toListClientResponse(clients);
         }
-        List<Client> clients = clientRepository.findByState(state);
+        List<Client> clients = clientRepository.findByAddressState(state);
         return ClientResponse.toListClientResponse(clients);
     }
 

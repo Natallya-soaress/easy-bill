@@ -1,5 +1,6 @@
 package br.com.oobj.easybill.dto;
 
+import br.com.oobj.easybill.model.Address;
 import br.com.oobj.easybill.model.Client;
 import br.com.oobj.easybill.model.Product;
 
@@ -24,12 +25,14 @@ public class ClientResponse {
         this.email = client.getEmail();
         this.cpf = client.getCpf();
         this.phoneNumber = client.getPhoneNumber();
-        this.complement = client.getComplement();
-        this.city = client.getCity();
-        this.number = client.getNumber();
-        this.district = client.getDistrict();
-        this.state = client.getState();
-        this.street = client.getStreet();
+
+
+        this.complement = client.getAddress().getComplement();
+        this.city = client.getAddress().getCity();
+        this.number =client.getAddress().getNumber();
+        this.district = client.getAddress().getDistrict();
+        this.state = client.getAddress().getState();
+        this.street = client.getAddress().getStreet();
     }
 
     public String getName() {

@@ -1,5 +1,6 @@
 package br.com.oobj.easybill.dto;
 
+import br.com.oobj.easybill.model.Address;
 import br.com.oobj.easybill.model.Client;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Length;
@@ -44,16 +45,19 @@ public class ClientRequest {
     private String state;
 
     public ClientRequest(Client client) {
+
         this.name = client.getName();
         this.email = client.getEmail();
         this.cpf = client.getCpf();
         this.phoneNumber = client.getPhoneNumber();
-        this.complement = client.getComplement();
-        this.city = client.getCity();
-        this.number = client.getNumber();
-        this.district = client.getDistrict();
-        this.state = client.getState();
-        this.street = client.getStreet();
+
+
+        this.complement = client.getAddress().getComplement();
+        this.city = client.getAddress().getCity();
+        this.number =client.getAddress().getNumber();
+        this.district = client.getAddress().getDistrict();
+        this.state = client.getAddress().getState();
+        this.street = client.getAddress().getStreet();
     }
 
     public ClientRequest() {
@@ -140,18 +144,25 @@ public class ClientRequest {
     }
 
     public Client toClient(){
+
         Client client = new Client();
 
         client.setName(name);
         client.setCpf(cpf);
         client.setEmail(email);
         client.setPhoneNumber(phoneNumber);
-        client.setCity(city);
-        client.setComplement(complement);
-        client.setNumber(number);
-        client.setState(state);
-        client.setDistrict(district);
-        client.setComplement(complement);
+
+        Address address = new Address();
+
+        address.setCity(city);
+        address.setComplement(complement);
+        address.setNumber(number);
+        address.setState(state);
+        address.setDistrict(district);
+        address.setStreet(street);
+        address.setComplement(complement);
+
+        client.setAddress(address);
 
         return client;
     }

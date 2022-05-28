@@ -1,12 +1,10 @@
 package br.com.oobj.easybill.dto;
 
-import br.com.oobj.easybill.model.Product;
 import br.com.oobj.easybill.model.SaleItem;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SaleItemResponse {
 

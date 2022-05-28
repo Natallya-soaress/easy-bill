@@ -65,7 +65,7 @@ public class ProductAPIController {
             return ResponseEntity.notFound().build();
         }
         requisition.update(id, productRepository);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/admin/products/{id}")
