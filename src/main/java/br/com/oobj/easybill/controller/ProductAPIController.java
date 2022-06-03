@@ -5,6 +5,8 @@ import br.com.oobj.easybill.dto.ProductResponse;
 import br.com.oobj.easybill.model.Product;
 import br.com.oobj.easybill.repository.ProductRepository;
 import br.com.oobj.easybill.validator.PromotionalPriceValidator;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -28,13 +30,20 @@ public class ProductAPIController {
         this.promotionalPriceValidator = promotionalPriceValidator;
     }
 
+    @GetMapping("/aW52YWxpZGEgY2FjaGUgbGlzdGFnZW0gcHJvZHV0b3M")
+    @CacheEvict(value = "showProducts", allEntries = true)
+    public void invalidCache(){
+    }
+
     @GetMapping("/products")
+    @Cacheable(value = "showProducts")
     public List<ProductResponse> showProducts() {
         List<Product> products = productRepository.findAll();
         return ProductResponse.toListProductResponse(products);
     }
 
     @PostMapping("/admin/products")
+    @CacheEvict(value = "showProducts", allEntries = true)
     public ResponseEntity<ProductRequest> newProduct(@RequestBody @Valid ProductRequest requisition, UriComponentsBuilder uriBuilder, BindingResult result) {
         promotionalPriceValidator.valid(requisition, result);
         if (result.hasErrors()) {
@@ -59,6 +68,7 @@ public class ProductAPIController {
 
     @PutMapping("/admin/products/{id}")
     @Transactional
+    @CacheEvict(value = "showProducts", allEntries = true)
     public ResponseEntity<Void> update(@PathVariable Long id, @Valid @RequestBody ProductRequest requisition) {
         Optional<Product> optional = productRepository.findById(id);
         if (!optional.isPresent()) {
@@ -70,6 +80,7 @@ public class ProductAPIController {
 
     @DeleteMapping("/admin/products/{id}")
     @Transactional
+    @CacheEvict(value = "showProducts", allEntries = true)
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Optional<Product> optional = productRepository.findById(id);
         if (!optional.isPresent()) {
