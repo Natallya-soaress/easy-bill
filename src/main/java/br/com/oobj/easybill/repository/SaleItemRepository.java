@@ -14,7 +14,7 @@ public interface SaleItemRepository extends JpaRepository<SaleItem, Long> {
     @Query(value = "SELECT * FROM sales_items i WHERE i.sale_id = :id", nativeQuery = true)
     List<SaleItem> findBySaleItemSale(Long id);
 
-    @Query(value = "SELECT P.NAME AS \"NAME\", SUM(QUANTITY) AS \"QUANTITY\" FROM SALES_ITEMS I JOIN PRODUCTS P ON P.ID=I.PRODUCT_ID GROUP BY (PRODUCT_ID)", nativeQuery = true)
+    @Query(value = "SELECT P.NAME AS \"NAME\", SUM(QUANTITY) AS \"QUANTITY\" FROM SALES_ITEMS I JOIN PRODUCTS P ON P.ID=I.PRODUCT_ID GROUP BY (Name)", nativeQuery = true)
     List<SalesByProductProjection> findBySalesByProduct();
 
 }

@@ -27,6 +27,7 @@ import java.util.Optional;
 @RequestMapping("api")
 public class SaleAPIController {
 
+
     private SaleItemRepository saleItemRepository;
     private ProductRepository productRepository;
     private ClientRepository clientRepository;
